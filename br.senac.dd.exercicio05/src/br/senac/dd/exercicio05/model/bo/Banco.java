@@ -1,4 +1,4 @@
-package br.senac.dd.exercicio05.model.dao;
+package br.senac.dd.exercicio05.model.bo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

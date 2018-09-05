@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import br.senac.dd.exercicio05.model.bo.Banco;
 import br.senac.dd.exercicio05.model.vo.FuncionarioVO;
 
 public class FuncionarioDAO {

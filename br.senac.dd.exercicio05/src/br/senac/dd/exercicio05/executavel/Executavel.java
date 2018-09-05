@@ -1,4 +1,4 @@
-package br.senac.dd.exercicio05;
+package br.senac.dd.exercicio05.executavel;
 
 public class Executavel {
 

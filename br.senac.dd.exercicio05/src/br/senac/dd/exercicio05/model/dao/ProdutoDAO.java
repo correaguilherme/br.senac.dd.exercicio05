@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.sql.SQLException;
 
+import br.senac.dd.exercicio05.model.bo.Banco;
 import br.senac.dd.exercicio05.model.vo.ProdutoVO;
 
 public class ProdutoDAO {
