@@ -5,9 +5,12 @@
  */
 package br.senac.dd.exercicio05.view;
 
+import br.senac.dd.exercicio05.controller.FuncionarioController;
+import br.senac.dd.exercicio05.model.bo.FuncionarioBO;
 import br.senac.dd.exercicio05.model.vo.FuncionarioVO;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -17,12 +20,40 @@ import javax.swing.table.DefaultTableModel;
 public class Menu extends javax.swing.JFrame {
     
     private static List<FuncionarioVO> funcionarios = new ArrayList<FuncionarioVO>();
+    private FuncionarioVO funcionario = new FuncionarioVO();
+    private FuncionarioBO bo = new FuncionarioBO();
     
-    private void LoadTableFunc() {
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Nome","Cpf","Salario"},0);
-        
-        tblFuncionario.setModel(modelo);
+    public FuncionarioVO construirFuncionario(){
+        funcionario.setNome(txtFuncionario_Nome.getText());
+        funcionario.setCpf(txtFuncionario_Cpf.getText());
+        funcionario.setSalario(Double.parseDouble(txtFuncionario_Salario.getText()));
+         
+        return funcionario;
     } 
+
+    protected void limparTela() {
+	funcionario = new FuncionarioVO();
+	txtFuncionario_ID.setText("");
+	txtFuncionario_Nome.setText("");
+	txtFuncionario_Cpf.setText("");
+	txtFuncionario_Salario.setText("");
+    }
+    
+
+    /* private void loadTableFunc() {
+        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"ID","Nome","CPF","Salário"},0);
+        
+        
+        for(int i=0;i<funcionarios.size();i++){
+            Object linha[] = new Object[]{funcionarios.get(i).getIdFuncionario(),
+                                        funcionarios.get(i).getNome(),
+                                        funcionarios.get(i).getCpf(),
+                                        funcionarios.get(i).getSalario()};
+            modelo.addRow(linha);
+        }
+        tblFuncionario.setModel(modelo);
+        tblFuncionario.getColumnModel().getColumn(0).setPreferredWidth(10);    
+    } */
 
     /**
      * Creates new form MenuProduto
@@ -67,6 +98,7 @@ public class Menu extends javax.swing.JFrame {
         btnFuncionario_Excluir = new javax.swing.JButton();
         btnFuncionario_Editar = new javax.swing.JButton();
         btnFuncionario_Novo = new javax.swing.JButton();
+        btnFuncionario_Buscar = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblProduto = new javax.swing.JTable();
@@ -139,6 +171,16 @@ public class Menu extends javax.swing.JFrame {
         lblFuncionario_Salario.setText("Salário:");
 
         btnFuncionario_Salvar.setText("Salvar");
+        btnFuncionario_Salvar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnFuncionario_SalvarMouseClicked(evt);
+            }
+        });
+        btnFuncionario_Salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFuncionario_SalvarActionPerformed(evt);
+            }
+        });
 
         btnFuncionario_Cancelar.setText("Cancelar");
         btnFuncionario_Cancelar.addActionListener(new java.awt.event.ActionListener() {
@@ -163,16 +205,15 @@ public class Menu extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(painelFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtFuncionario_Salario, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                            .addGroup(painelFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtFuncionario_Cpf, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-                                .addComponent(txtFuncionario_Nome)
-                                .addComponent(txtFuncionario_ID))))
+                            .addComponent(txtFuncionario_Cpf, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                            .addComponent(txtFuncionario_Nome)
+                            .addComponent(txtFuncionario_ID)))
                     .addGroup(painelFuncionarioLayout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addComponent(btnFuncionario_Salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(btnFuncionario_Cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         painelFuncionarioLayout.setVerticalGroup(
             painelFuncionarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,13 +242,27 @@ public class Menu extends javax.swing.JFrame {
         );
 
         btnFuncionario_Excluir.setText("Excluir");
+        btnFuncionario_Excluir.setMaximumSize(null);
 
         btnFuncionario_Editar.setText("Editar");
+        btnFuncionario_Editar.setMaximumSize(null);
+        btnFuncionario_Editar.setMinimumSize(new java.awt.Dimension(69, 25));
 
         btnFuncionario_Novo.setText("Novo");
+        btnFuncionario_Novo.setMaximumSize(null);
+        btnFuncionario_Novo.setMinimumSize(new java.awt.Dimension(69, 25));
         btnFuncionario_Novo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnFuncionario_NovoActionPerformed(evt);
+            }
+        });
+
+        btnFuncionario_Buscar.setText("Buscar");
+        btnFuncionario_Buscar.setMaximumSize(null);
+        btnFuncionario_Buscar.setMinimumSize(new java.awt.Dimension(69, 25));
+        btnFuncionario_Buscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFuncionario_BuscarActionPerformed(evt);
             }
         });
 
@@ -221,11 +276,13 @@ public class Menu extends javax.swing.JFrame {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(painelFuncionario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnFuncionario_Novo, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnFuncionario_Editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnFuncionario_Excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnFuncionario_Novo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnFuncionario_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnFuncionario_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnFuncionario_Excluir, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -235,9 +292,10 @@ public class Menu extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFuncionario_Novo)
-                    .addComponent(btnFuncionario_Editar)
-                    .addComponent(btnFuncionario_Excluir))
+                    .addComponent(btnFuncionario_Novo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFuncionario_Editar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFuncionario_Excluir, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnFuncionario_Buscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(painelFuncionario, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
@@ -433,7 +491,7 @@ public class Menu extends javax.swing.JFrame {
         btnFuncionario_Salvar.setEnabled(true);
         btnFuncionario_Cancelar.setEnabled(true);
         
-        txtFuncionario_ID.setEnabled(true);
+        txtFuncionario_ID.setEnabled(false);
         txtFuncionario_Nome.setEnabled(true);
         txtFuncionario_Cpf.setEnabled(true);
         txtFuncionario_Salario.setEnabled(true);
@@ -442,7 +500,44 @@ public class Menu extends javax.swing.JFrame {
     private void btnFuncionario_CancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionario_CancelarActionPerformed
         btnFuncionario_Salvar.setEnabled(false);
         btnFuncionario_Cancelar.setEnabled(false);
+        
+        txtFuncionario_ID.setEnabled(false);
+        txtFuncionario_Nome.setEnabled(false);
+        txtFuncionario_Cpf.setEnabled(false);
+        txtFuncionario_Salario.setEnabled(false);
     }//GEN-LAST:event_btnFuncionario_CancelarActionPerformed
+
+    private void btnFuncionario_SalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionario_SalvarActionPerformed
+        FuncionarioController controlador = new FuncionarioController();
+        FuncionarioVO funcionario = construirFuncionario();
+        String mensagem = controlador.salvar(funcionario);
+	JOptionPane.showMessageDialog(null, mensagem);
+	limparTela();  
+        
+       /* funcionario = bo.buscarFuncionarioPorId(txtFuncionario_ID.getText());
+        if(funcionario != null) {
+            //Preencher os campos da tela
+            txtFuncionario_Nome.setText(funcionario.getNome());
+            txtFuncionario_Cpf.setText(funcionario.getCpf());
+            txtFuncionario_Salario.setText(funcionario.getSalario() + ""); 
+        }else{
+            JOptionPane.showMessageDialog(null, "Funcionario não encontrado");
+        } */
+    }//GEN-LAST:event_btnFuncionario_SalvarActionPerformed
+
+    private void btnFuncionario_SalvarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnFuncionario_SalvarMouseClicked
+      
+    }//GEN-LAST:event_btnFuncionario_SalvarMouseClicked
+
+    private void btnFuncionario_BuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuncionario_BuscarActionPerformed
+        btnFuncionario_Salvar.setEnabled(true);
+        btnFuncionario_Cancelar.setEnabled(true);
+        
+        txtFuncionario_ID.setEnabled(true);
+        txtFuncionario_Nome.setEnabled(false);
+        txtFuncionario_Cpf.setEnabled(false);
+        txtFuncionario_Salario.setEnabled(false);       
+    }//GEN-LAST:event_btnFuncionario_BuscarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -481,6 +576,7 @@ public class Menu extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnFuncionario_Buscar;
     private javax.swing.JButton btnFuncionario_Cancelar;
     private javax.swing.JButton btnFuncionario_Editar;
     private javax.swing.JButton btnFuncionario_Excluir;
