@@ -17,15 +17,15 @@ public int inserir(FuncionarioVO f) {
 		
 		int novoId = -1;
 		
-		String sql = " INSERT INTO FUNCIONARIO (NOME, SALARIO, CPF) VALUES (?,?,?) ";
+		String sql = " INSERT INTO FUNCIONARIO (NOME, CPF, SALARIO) VALUES (?,?,?) ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
 		
 		try {
 				prepStmt.setString(1, f.getNome());
-				prepStmt.setDouble(2, f.getSalario());
-				prepStmt.setString(3, f.getCpf());
+                                prepStmt.setString(2, f.getCpf());
+				prepStmt.setDouble(3, f.getSalario());
 			
 				prepStmt.execute();
 				
@@ -46,15 +46,15 @@ public int inserir(FuncionarioVO f) {
 	public boolean atualizar(FuncionarioVO f) {
 		boolean sucessoUpdate = false;
 		
-		String sql = " UPDATE FUNCIONARIO F SET NOME=?, SALARIO=?, CPF=? WHERE F.ID = ? ";
+		String sql = " UPDATE FUNCIONARIO F SET NOME=?, CPF=?, SALARIO=?, WHERE F.ID = ? ";
 		
 		Connection conexao = Banco.getConnection();
 		PreparedStatement prepStmt = Banco.getPreparedStatement(conexao, sql, Statement.RETURN_GENERATED_KEYS);
 		
 		try {
 				prepStmt.setString(1, f.getNome());
-				prepStmt.setDouble(2, f.getSalario());
-				prepStmt.setString(3, f.getCpf());
+                                prepStmt.setString(2, f.getCpf());
+				prepStmt.setDouble(3, f.getSalario());
 				prepStmt.setInt(4, f.getIdFuncionario());
 				
 				int codigoRetorno = prepStmt.executeUpdate();
@@ -116,13 +116,15 @@ public int inserir(FuncionarioVO f) {
 					FuncionarioVO f = new FuncionarioVO();
 					
 					//Obtendo valores pelo NOME DA COLUNA
-					f.setIdFuncionario(result.getInt("ID"));
+					f.setIdFuncionario(result.getInt("IDFUNCIONARIO"));
 					f.setNome(result.getString("NOME"));
+                                        f.setCpf(result.getString("CPF"));
 					f.setSalario(result.getDouble("SALARIO"));
 					
 					//Outra forma de obter (POSICIONAL)
-					f.setNome(result.getString(4));
-					f.setSalario(result.getDouble(5));
+					// f.setNome(result.getString(4));
+					// f.setSalario(result.getDouble(5));
+                                        
 					funcionarios.add(f);
 				}
 			} catch (SQLException e) {
@@ -156,11 +158,12 @@ public int inserir(FuncionarioVO f) {
 					//Obtendo valores pelo NOME DA COLUNA
 					f.setIdFuncionario(result.getInt("ID"));
 					f.setNome(result.getString("NOME"));
+                                        f.setCpf(result.getString("CPF"));
 					f.setSalario(result.getDouble("SALARIO"));
 					
 					//Outra forma de obter (POSICIONAL)
-					f.setNome(result.getString(4));
-					f.setSalario(result.getDouble(5));
+					//f.setNome(result.getString(4));
+					//f.setSalario(result.getDouble(5));
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

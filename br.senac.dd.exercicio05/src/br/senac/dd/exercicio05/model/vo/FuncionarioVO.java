@@ -4,19 +4,20 @@ public class FuncionarioVO {
 
 	private int idFuncionario;
 	private String nome;
+        private String cpf;
 	private double salario;
-	private String cpf;
 	
 	public FuncionarioVO() {
 		
 	}
 	
-	public FuncionarioVO(String nome, double salario, String cpf, int idFuncionario) {
+	public FuncionarioVO(int idFuncionario, String nome, String cpf, double salario) {
 		super();
+                this.idFuncionario = idFuncionario;
 		this.nome = nome;
+                this.cpf = cpf;
 		this.salario = salario;
-		this.cpf = cpf;
-		this.idFuncionario = idFuncionario;
+			
 	}
 	public int getIdFuncionario() {
 		return idFuncionario;
